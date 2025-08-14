@@ -1,0 +1,26 @@
+local g = vim.g
+local o = vim.opt
+
+o.title = true
+o.number = true
+o.relativenumber = true
+o.list = true
+o.wrap = false
+o.scrolloff = 8
+o.laststatus = 0
+o.colorcolumn = tostring(g.maxwidth + 1)
+o.signcolumn = "yes"
+o.hlsearch = false
+o.updatetime = 50
+o.textwidth = g.maxwidth
+o.expandtab = true
+o.tabstop = g.tabwidth
+o.shiftwidth = g.tabwidth
+o.softtabstop = g.tabwidth
+o.undofile = true
+o.undodir = os.getenv("HOME") .. "/.vim/undodir"
+o.swapfile = false
+o.splitbelow = true
+o.exrc = true
+o.secure = true
+o.showtabline = 0
