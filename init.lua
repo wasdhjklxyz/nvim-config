@@ -26,10 +26,11 @@ vim.opt.rtp:prepend(lazypath)
 require('lazy').setup({
   spec = {
     { import = "plugins" },
+    { import = "colorschemes" },
   },
   defaults = {
-    lazy = true,        -- Lazy load by default
-    version = "*",      -- Use stable versions
+    lazy = false,   -- Load all plugins at startup
+    version = "*",  -- Use stable versions
   },
   checker = {
     enabled = true,
