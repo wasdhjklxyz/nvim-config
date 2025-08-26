@@ -70,3 +70,16 @@ api.nvim_create_autocmd("FileType", {
     })
   end,
 })
+
+-- Use gofmt
+api.nvim_create_autocmd("FileType", {
+  pattern = "go",
+  callback = function()
+    api.nvim_create_autocmd("BufWritePre", {
+      buffer = 0,
+      callback = function()
+        vim.lsp.buf.format({ timeout_ms = 1000 })
+      end,
+    })
+  end,
+})

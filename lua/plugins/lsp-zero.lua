@@ -63,6 +63,27 @@ return {
         }
       }
     }
+    require("lspconfig").gopls.setup{
+      settings = {
+        gopls = {
+          gofumpt = true,
+          usePlaceholders = true,
+          completeUnimported = true,
+          staticcheck = true,
+          analyses = {
+            unusedparams = true,
+            unreachable = true,
+            nilness = true,
+          },
+          hints = {
+            assignVariableTypes = true,
+            constantValues = true,
+            parameterNames = true,
+            rangeVariableTypes = true,
+          },
+        },
+      },
+    }
     lsp.setup()
     vim.lsp.set_log_level("off")
   end,
