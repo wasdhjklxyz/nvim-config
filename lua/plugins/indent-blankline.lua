@@ -7,7 +7,7 @@ return {
         enabled = false,
       },
       indent = {
-        highlight = { "LineNr" },
+        highlight = { "WhiteSpace" },
         char = "│", -- 
       }
     }
