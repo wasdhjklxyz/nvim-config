@@ -22,10 +22,10 @@ return {
       },
       colors = {},
       highlights = {
-        ["ColorColumn"] = { bg = "#151518" },
-        ["@comment"] = { fg = "#3a3945" },
-        ["LineNr"] = { fg = "#2a2935" },
-        ["MatchParen"] = { fg = "#171622", bg = "#e6e6e6" },
+        --["ColorColumn"] = { bg = "#151518" },
+        --["@comment"] = { fg = "#3a3945" },
+        --["LineNr"] = { fg = "#2a2935" },
+        --["MatchParen"] = { fg = "#171622", bg = "#e6e6e6" },
       },
       diagnostics = {
         darker = false,
