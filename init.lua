@@ -53,3 +53,6 @@ require('lazy').setup({
 -- Load keymaps and autocmds
 require("core.keymaps")
 require("core.autocmds")
+
+-- Default Colorscheme
+vim.cmd("colorscheme github_dark_default")
