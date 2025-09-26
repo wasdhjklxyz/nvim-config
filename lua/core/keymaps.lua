@@ -104,3 +104,7 @@ km.set("t", "<esc>", "<c-\\><c-n>")
 km.set("n", "<leader>cs", function()
   tsb.colorscheme({ enable_preview = true })
 end)
+
+-- Add centering when using { } to navigate
+km.set("n", "{", "{zz")
+km.set("n", "}", "}zz")
