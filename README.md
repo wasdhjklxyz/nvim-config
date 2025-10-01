@@ -11,6 +11,6 @@ always be) a work in progress.
 
 ## Usage
 ```sh
-git clone .../nvim-config
-ln -s nvim-config ~/.config/nvim
+git clone https://github.com/wasdhjklxyz/nvim-config.git
+ln -s $PWD/nvim-config $HOME/.config/nvim
 ```
