@@ -89,11 +89,7 @@ vim.api.nvim_create_autocmd({"BufRead", "BufNewFile"}, {
   pattern = {"*.c", "*.h"},
   callback = function()
     local path = vim.fn.expand('%:p')
-    if path:match('/linux/') or
-      path:match('/kernel/') or
-      path:match('/drivers/') or
-      path:match('/modules/') or
-      path:match('/untitled/') then
+    if vim.fn.filereadable('Kbuild') == 1 then
       --vim.fn.filereadable('.clang-format') == 1 then
       vim.opt_local.tabstop = 8
       vim.opt_local.shiftwidth = 8
