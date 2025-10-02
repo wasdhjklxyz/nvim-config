@@ -24,4 +24,4 @@ o.splitbelow = true
 o.exrc = true
 o.secure = true
 o.showtabline = 0
-o.ttimeoutlen = 0
+o.ttimeoutlen = 10
