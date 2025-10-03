@@ -59,6 +59,7 @@ end)
 -- Show git information
 km.set("n", "<leader>gs", vim.cmd.Git)
 km.set("n", "<leader>gd", "<cmd>Gitsigns preview_hunk_inline<cr>")
+km.set("n", "<leader>gr", "<cmd>Gitsigns reset_hunk<cr>")
 
 -- New window
 km.set("n", "<leader>nn", "<cmd>enew<cr>")
