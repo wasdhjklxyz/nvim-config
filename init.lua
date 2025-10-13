@@ -54,5 +54,9 @@ require('lazy').setup({
 require("core.keymaps")
 require("core.autocmds")
 
--- Default Colorscheme
-vim.cmd("colorscheme github_dark_default")
+-- Default Colorscheme (assumes github:wasdhjklxyz/kitty-conf is used)
+local kc = os.getenv("KITTY_COLORS")
+if kc == nil or kc == "" then
+  kc = "dark"
+end
+vim.cmd("colorscheme github_" .. kc .. "_default")
