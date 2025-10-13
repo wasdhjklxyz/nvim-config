@@ -83,3 +83,22 @@ api.nvim_create_autocmd("FileType", {
     })
   end,
 })
+
+-- Use kernel formatting
+vim.api.nvim_create_autocmd({"BufRead", "BufNewFile"}, {
+  pattern = {"*.c", "*.h"},
+  callback = function()
+    local path = vim.fn.expand('%:p')
+    if vim.fn.filereadable('Kbuild') == 1 then
+      --vim.fn.filereadable('.clang-format') == 1 then
+      vim.opt_local.tabstop = 8
+      vim.opt_local.shiftwidth = 8
+      vim.opt_local.softtabstop = 8
+      vim.opt_local.expandtab = false
+      vim.opt_local.textwidth = 80
+      vim.opt_local.cindent = true
+      vim.opt_local.cinoptions = ":0,l1,t0,g0,(0"
+      vim.opt_local.colorcolumn = "80"
+    end
+  end
+})
