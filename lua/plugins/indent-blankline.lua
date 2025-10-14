@@ -7,8 +7,11 @@ return {
         enabled = false,
       },
       indent = {
-        highlight = { "WhiteSpace" },
-        char = "│", -- 
+        --highlight = { "WhiteSpace" },
+        highlight = { "VertSplit" },
+        --char = "│", -- 
+        --char="▏",
+        char="│",
       }
     }
   end,
