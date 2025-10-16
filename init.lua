@@ -12,6 +12,9 @@ vim.g.loaded_netrwFileHandlers = 1
 -- Set nvim options
 require("core.options")
 
+-- Suppress deprecation warnings
+vim.deprecate = function() end
+
 -- Initialize lazy
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
