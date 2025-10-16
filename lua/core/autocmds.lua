@@ -6,6 +6,7 @@ api.nvim_create_autocmd("User", {
   pattern = "AlphaReady",
   callback = function()
     local bufnr = api.nvim_get_current_buf()
+    require("utils.sparkle").setup_highlights()
     require("utils.sparkle").start_fading_animation(bufnr, 1)
   end,
 })

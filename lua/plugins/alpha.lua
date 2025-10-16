@@ -3,7 +3,6 @@ return {
   dependencies = { "nvim-telescope/telescope.nvim" },
   config = function()
     local dashboard = require("alpha.themes.dashboard")
-    require("utils.sparkle").setup_highlights()
     local buttonhl = function(shortcut, text, command)
       local button = dashboard.button(shortcut, text, command)
       button.opts.hl_shortcut = "Conceal"
@@ -39,10 +38,9 @@ return {
       [[             °                                             ]],
       [[                                                           ]],
       [[                                                           ]],
-      [[                                                           ]],
     }
     vim.api.nvim_create_user_command("StopSparkle", function()
-      stop_animation()
+      require("utils.sparkle").stop_animation()
     end, {})
     require("alpha").setup(dashboard.opts)
   end,
