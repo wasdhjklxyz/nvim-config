@@ -17,7 +17,7 @@ return {
       },
       sources = { "filesystem" },
       window = {
-        width = 44,
+        width = 36,
         mappings = {
           ["<"] = "noop",  -- Used to resize windows (see keymaps)
           [">"] = "noop",  -- Used to resize windows (see keymaps)
