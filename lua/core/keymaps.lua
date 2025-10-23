@@ -123,3 +123,6 @@ km.set("n", "<leader>vdb", function()
     command! -range=% GremoveConflictMarkers <line1>,<line2>call RemoveConflictMarkers()
   ]])
 end)
+
+-- Zen mode
+km.set("n", "<leader>z", ":ZenMode<cr>")
