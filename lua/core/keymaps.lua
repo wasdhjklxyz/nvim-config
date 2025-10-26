@@ -126,3 +126,8 @@ end)
 
 -- Zen mode
 km.set("n", "<leader>z", ":ZenMode<cr>")
+
+-- Vimdiff stuff
+km.set("n", "<leader>dgl", "<cmd>diffget LOCAL<cr>")
+km.set("n", "<leader>dgr", "<cmd>diffget REMOTE<cr>")
+km.set("n", "<leader>dgb", "<cmd>diffget BASE<cr>")
