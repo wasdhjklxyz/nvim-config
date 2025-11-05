@@ -9,10 +9,10 @@ km.set("n", "<s-y>", "\"+y")
 km.set("v", "<s-y>", "\"+y")
 
 -- Adjust window size
-km.set("n", "<", "<cmd>vertical resize +4<cr>")
-km.set("n", ">", "<cmd>vertical resize -4<cr>")
-km.set("n", "<c-,>", "<cmd>horizontal resize -4<cr>")
-km.set("n", "<c-.>", "<cmd>horizontal resize +4<cr>")
+km.set("n", "<s-right>", "<cmd>vertical resize +2<cr>")
+km.set("n", "<s-left>", "<cmd>vertical resize -2<cr>")
+km.set("n", "<s-down>", "<cmd>horizontal resize -2<cr>")
+km.set("n", "<s-up>", "<cmd>horizontal resize +2<cr>")
 
 -- Navigate windows
 km.set("n", "<c-h>", "<c-w>h")
