@@ -110,27 +110,8 @@ end)
 km.set("n", "{", "{zz")
 km.set("n", "}", "}zz")
 
--- Accept both in vimdiff
-km.set("n", "<leader>vdb", function()
-  vim.cmd([[
-    "Delete all Git conflict markers
-    "Creates the command :GremoveConflictMarkers
-    function! RemoveConflictMarkers() range
-      echom a:firstline.'-'.a:lastline
-      execute a:firstline.','.a:lastline . ' g/^<\{7}\|^|\{7}\|^=\{7}\|^>\{7}/d'
-    endfunction
-    "-range=% default is whole file
-    command! -range=% GremoveConflictMarkers <line1>,<line2>call RemoveConflictMarkers()
-  ]])
-end)
-
 -- Zen mode
 km.set("n", "<leader>z", ":ZenMode<cr>")
-
--- Vimdiff stuff
-km.set("n", "<leader>dgl", "<cmd>diffget LOCAL<cr>")
-km.set("n", "<leader>dgr", "<cmd>diffget REMOTE<cr>")
-km.set("n", "<leader>dgb", "<cmd>diffget BASE<cr>")
 
 -- Write quit all
 km.set("n", "<leader>x", "<cmd>xa<cr>")
