@@ -115,3 +115,6 @@ km.set("n", "<leader>z", ":ZenMode<cr>")
 
 -- Write quit all
 km.set("n", "<leader>x", "<cmd>xa<cr>")
+
+-- Go err
+km.set("i", ";ifer", "if err != nil {<cr><cr>}<up><tab><tab>")
