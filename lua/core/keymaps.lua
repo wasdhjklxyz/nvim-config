@@ -118,3 +118,6 @@ km.set("n", "<leader>x", "<cmd>xa<cr>")
 
 -- Go err
 km.set("i", ";ifer", "if err != nil {<cr><cr>}<up><tab><tab>")
+
+-- Copy all
+km.set("n", "<leader>y", "magg0vG$<s-y>'a")
