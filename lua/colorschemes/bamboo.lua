@@ -32,7 +32,7 @@ return {
         ["StatusLineNC"] = { bg = "#100e1a"},
         ["BufferVisible"] = { bg = "#201b28" },
         ["BufferInactiveMod"] = { bg = "#201b28" },
-        ["Visual"] = { bg = "#201b28" },
+        ["Visual"] = { bg = "#e75a7c", fg = "#201b28" },
         ["Folded"] = { bg = "#201b28" },
         ["WinSeparator"] = { fg = "#201b28" },
       },
