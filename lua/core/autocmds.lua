@@ -103,3 +103,15 @@ vim.api.nvim_create_autocmd({"BufRead", "BufNewFile"}, {
     end
   end
 })
+
+-- Open PDF
+vim.api.nvim_create_autocmd({"BufReadPre"}, {
+  pattern = "*.pdf",
+  callback = function()
+    local file = vim.fn.expand("<afile>:p")
+    vim.schedule(function()
+      vim.fn.jobstart({"zathura", file}, {detach = true})
+      vim.cmd("bwipeout")
+    end)
+  end
+})
