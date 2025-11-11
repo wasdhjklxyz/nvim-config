@@ -58,4 +58,4 @@ require("core.keymaps")
 require("core.autocmds")
 
 -- Default Colorscheme
-vim.cmd("colorscheme bamboo")
+vim.cmd("colorscheme tokyodark")
