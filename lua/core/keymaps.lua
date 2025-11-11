@@ -121,3 +121,15 @@ km.set("i", ";ifer", "if err != nil {<cr><cr>}<up><tab><tab>")
 
 -- Copy all
 km.set("n", "<leader>y", "magg0vG$<s-y>'a")
+
+-- Diff view
+local diffview_open = false
+km.set("n", "<leader>vd", function()
+  if diffview_open then
+    vim.cmd("DiffviewClose")
+    diffview_open = false
+  else
+    vim.cmd("DiffviewOpen")
+    diffview_open = true
+  end
+end)
