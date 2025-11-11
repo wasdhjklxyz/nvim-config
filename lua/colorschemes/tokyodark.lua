@@ -1,10 +1,54 @@
 return {
   "tiagovla/tokyodark.nvim",
   opts = {
-    -- custom options here
+    transparent_background = true,
+    gamma = 1.0,
+    custom_highlights = {
+      ["ColorColumn"] = { bg = "#0a0a0a" },
+      ["@comment"] = { fg = "#1f1f1f" },
+      ["LineNr"] = { fg = "#141414" },
+      ["VertSplit"] = { fg = "#181420" },
+      ["CursorLine"] = { bg = "#141414" },
+      ["StatusLine"] = { bg = "#141414" },
+      ["StatusLineNC"] = { bg = "#141414"},
+      ["BufferVisible"] = { bg = "#141414" },
+      ["BufferInactiveMod"] = { bg = "#141414" },
+      ["Visual"] = { bg = "#e48b9b", fg = "#141414" },
+      ["Folded"] = { bg = "#141414" },
+      ["WinSeparator"] = { fg = "#141414" },
+    },
+    custom_palette = {
+      black = "#000000",
+      bg0 = "#0a0a0a",
+      bg1 = "#141414",
+      bg2 = "#1f1f1f",
+      bg3 = "#353535",
+      bg4 = "#535353",
+      bg5 = "#1a1a1a",
+      bg_red = "#e48b9b",
+      bg_green = "#a2cca2",
+      bg_blue = "#6fbce2",
+      diff_red = "#3a1c25",
+      diff_green = "#1f3721",
+      diff_blue = "#112e34",
+      diff_add = "#121712",
+      diff_change = "#13141f",
+      diff_delete = "#1c1214",
+      diff_text = "#1a3d52",
+      fg = "#c8c8c8",
+      red = "#e74670",
+      orange = "#e48b9b",
+      yellow = "#dab853",
+      green = "#89d287",
+      blue = "#44b8d0",
+      cyan = "#65aaae",
+      purple = "#da62db",
+      grey = "#535353",
+      none = "NONE",
+    },
   },
   config = function(_, opts)
-    --require("tokyodark").setup(opts) -- calling setup is optional
-    --vim.cmd [[colorscheme tokyodark]]
+    require("tokyodark").setup(opts)
+    vim.cmd [[colorscheme tokyodark]]
   end,
 }
