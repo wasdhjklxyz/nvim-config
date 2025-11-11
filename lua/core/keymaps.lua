@@ -124,7 +124,7 @@ km.set("n", "<leader>y", "magg0vG$<s-y>'a")
 
 -- Diff view
 local diffview_open = false
-km.set("n", "<leader>vd", function()
+km.set("n", "<leader>dv", function()
   if diffview_open then
     vim.cmd("DiffviewClose")
     diffview_open = false
