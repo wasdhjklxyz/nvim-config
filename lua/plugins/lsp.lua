@@ -52,6 +52,42 @@ return {
         },
       },
     })
+    lspconfig.ruff.setup({
+      capabilities = capabilities,
+      on_attach = function(client, bufnr)
+        client.server_capabilities.hoverProvider = false
+        on_attach(client, bufnr)
+      end,
+    })
+    lspconfig.basedpyright.setup({
+      capabilities = capabilities,
+      on_attach = on_attach,
+      root_dir = function(fname)
+        return lspconfig.util.root_pattern(
+          "pyproject.toml",
+          "setup.py",
+          "setup.cfg",
+          "requirements.txt",
+          ".venv",
+          ".git"
+        )(fname)
+      end,
+      settings = {
+        basedpyright = {
+          analysis = {
+            typeCheckingMode = "standard",
+            autoSearchPaths = true,
+            useLibraryCodeForTypes = true,
+            diagnosticSeverityOverrides = {
+              reportMissingTypeStubs = "none",
+              reportUnknownMemberType = "none",
+              reportUnknownArgumentType = "none",
+              reportUnknownVariableType = "none",
+            },
+          },
+        },
+      },
+    })
     local original = vim.lsp.util.make_position_params
     vim.lsp.util.make_position_params = function(window, offset_encoding)
       return original(window, offset_encoding or 'utf-16')
