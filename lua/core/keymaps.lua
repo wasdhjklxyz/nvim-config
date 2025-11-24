@@ -133,3 +133,13 @@ km.set("n", "<leader>dv", function()
     diffview_open = true
   end
 end)
+
+-- Reverse highlighted lines
+km.set('v', '<leader>r', ":!tac<cr>")
+
+-- Search selection
+vim.keymap.set('v', '/', [[y/\V<C-R>=escape(@",'/\')<CR><CR>]])
+
+-- Substitute selection
+vim.keymap.set('v', '<leader>s', [[y:%s/<C-R>"//gc<Left><Left><Left>]]) -- confirm each
+vim.keymap.set('v', '<leader>S', [[y:%s/<C-R>"//g<Left><Left>]]) -- yolo
