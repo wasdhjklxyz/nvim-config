@@ -143,3 +143,6 @@ vim.keymap.set('v', '/', [[y/\V<C-R>=escape(@",'/\')<CR><CR>]])
 -- Substitute selection
 vim.keymap.set('v', '<leader>s', [[y:%s/<C-R>"//gc<Left><Left><Left>]]) -- confirm each
 vim.keymap.set('v', '<leader>S', [[y:%s/<C-R>"//g<Left><Left>]]) -- yolo
+
+-- Clear terminal
+km.set('t', '<c-l>', '<c-l>')
