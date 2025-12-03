@@ -5,15 +5,15 @@ return {
   config = function()
     require("telescope").setup {
       defaults = {
-        prompt_prefix = "   ",
+        prompt_prefix = "",
         selection_caret = " ",
         path_display = { "truncate" },
         layout_strategy = "horizontal",
         layout_config = {
           horizontal = {
             prompt_position = "bottom",
-            width = { padding = 0.0 },
-            height = { padding = 0.0 },
+            width = { padding = 0.25 },
+            height = { padding = 0.15 },
             preview_width = 0.5,
             preview_cutoff = 0, -- uncomment to enable preview
           },
