@@ -115,3 +115,17 @@ vim.api.nvim_create_autocmd({"BufReadPre"}, {
     end)
   end
 })
+
+vim.api.nvim_create_autocmd({"BufEnter", "ColorScheme"}, {
+  pattern = "*.md",
+  callback = function()
+    vim.defer_fn(function()
+      vim.api.nvim_set_hl(0, "@markup.heading.1.markdown", { fg = "#e48b9b", bold = true })
+      vim.api.nvim_set_hl(0, "@markup.heading.2.markdown", { fg = "#6fbce2", bold = true })
+      vim.api.nvim_set_hl(0, "@markup.heading.3.markdown", { fg = "#a2cca2", bold = true })
+      vim.api.nvim_set_hl(0, "@markup.heading.4.markdown", { fg = "#e1e388", bold = true })
+      vim.api.nvim_set_hl(0, "@markup.heading.5.markdown", { fg = "#e786e7", bold = true })
+      vim.api.nvim_set_hl(0, "@markup.heading.6.markdown", { fg = "#96dbdb", bold = true })
+    end, 0)
+  end,
+})
