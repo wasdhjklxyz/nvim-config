@@ -12,8 +12,8 @@ return {
         layout_config = {
           horizontal = {
             prompt_position = "bottom",
-            width = { padding = 0.25 },
-            height = { padding = 0.15 },
+            width = { padding = 0 },
+            height = { padding = 0 },
             preview_width = 0.5,
             preview_cutoff = 0, -- uncomment to enable preview
           },
