@@ -155,7 +155,7 @@ km.set('i', ';sh', '#!/bin/sh<cr><cr>')
 km.set('n', '<leader>gw', ':silent !git add -A<cr>:silent !git rm $(git ls-files --deleted)<cr>:silent !git commit -m "--wip--"<cr>')
 
 -- Unwip (soft reset last commit)
-km.set('n', '<leader>gu', ':G reset --soft HEAD~1<CR>')
+km.set('n', '<leader>gu', ':G reset HEAD~1<cr>')
 
 -- Quick status
 km.set('n', '<leader>gs', ':G show<cr>')
