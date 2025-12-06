@@ -150,3 +150,55 @@ km.set('t', '<c-l>', '<c-l>')
 -- Shebangs
 km.set('i', ';bash', '#!/usr/bin/env bash<cr><cr>')
 km.set('i', ';sh', '#!/bin/sh<cr><cr>')
+
+-- Wip commit keybinding
+km.set('n', '<leader>gw', ':silent !git ip<CR>:redraw!<CR>:G<CR>', { desc = 'Git WIP commit' })
+
+-- Unwip (soft reset last commit)
+km.set('n', '<leader>gu', ':G reset --soft HEAD~1<CR>:G<CR>', { desc = 'Git unwip (undo last commit)' })
+
+-- Quick status
+km.set('n', '<leader>gs', ':G<CR>', { desc = 'Git status' })
+
+-- Quick diff
+km.set('n', '<leader>gd', ':Gdiffsplit<CR>', { desc = 'Git diff split' })
+
+-- Telescope git branch stuff
+km.set('n', '<leader>gb', function()
+  local actions = require('telescope.actions')
+  local action_state = require('telescope.actions.state')
+  local pickers = require('telescope.pickers')
+  local finders = require('telescope.finders')
+  local conf = require('telescope.config').values
+  local branches = vim.fn.systemlist('git branch --format="%(refname:short)"')
+  table.insert(branches, 1, '+ Create new branch...')
+  pickers.new({}, {
+    prompt_title = 'Git Branches',
+    finder = finders.new_table({
+      results = branches,
+    }),
+    sorter = conf.generic_sorter({}),
+    attach_mappings = function(prompt_bufnr, map)
+      actions.select_default:replace(function()
+        local selection = action_state.get_selected_entry()
+        actions.close(prompt_bufnr)
+        if selection and selection[1] then
+          local choice = selection[1]
+          if choice:match('^%+') then
+            vim.schedule(function()
+              local name = vim.fn.input('Branch name: ')
+              if name ~= '' then
+                vim.cmd('G checkout -b ' .. name)
+                vim.notify('Created: ' .. name, vim.log.levels.INFO)
+              end
+            end)
+          else
+            vim.cmd('G checkout ' .. choice)
+            vim.notify('Switched to: ' .. choice, vim.log.levels.INFO)
+          end
+        end
+      end)
+      return true
+    end,
+  }):find()
+end)
