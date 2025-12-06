@@ -164,8 +164,8 @@ km.set('n', '<leader>gs', ':G<CR>', { desc = 'Git status' })
 km.set('n', '<leader>gd', ':Gdiffsplit<CR>', { desc = 'Git diff split' })
 
 -- Log
-km.set('n', '<leader>gll', ':G log --oneline --graph --decorate<CR>')
-km.set('n', '<leader>gla', ':G log --oneline --graph --all --decorate<CR>')
+km.set('n', '<leader>gl', ':G log --oneline --graph --decorate<CR>')
+km.set('n', '<leader>g<s-l>', ':G log --oneline --graph --all --decorate<CR>')
 
 -- Telescope git branch stuff
 km.set('n', '<leader>gb', function()
