@@ -152,7 +152,7 @@ km.set('i', ';bash', '#!/usr/bin/env bash<cr><cr>')
 km.set('i', ';sh', '#!/bin/sh<cr><cr>')
 
 -- Wip commit keybinding
-km.set('n', '<leader>gw', ':silent !git add -A<cr>:silent !git rm $(git ls-files --deleted)<cr>:!git commit -m "--wip--"<cr>')
+km.set('n', '<leader>gw', ':silent !git add -A<cr>:silent !git rm $(git ls-files --deleted)<cr>:silent !git commit -m "--wip--"<cr>')
 
 -- Unwip (soft reset last commit)
 km.set('n', '<leader>gu', ':G reset --soft HEAD~1<CR>')
