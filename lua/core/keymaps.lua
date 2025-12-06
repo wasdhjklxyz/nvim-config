@@ -146,3 +146,6 @@ vim.keymap.set('v', '<leader>S', [[y:%s/<C-R>"//g<Left><Left>]]) -- yolo
 
 -- Clear terminal
 km.set('t', '<c-l>', '<c-l>')
+
+-- Bash shebang
+km.set('i', ';bash', '#!/usr/bin/env bash<cr><cr>')
