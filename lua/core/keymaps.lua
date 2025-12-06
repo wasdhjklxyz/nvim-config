@@ -158,14 +158,14 @@ km.set('n', '<leader>gw', ':silent !git add -A<cr>:silent !git rm $(git ls-files
 km.set('n', '<leader>gu', ':G reset --soft HEAD~1<CR>')
 
 -- Quick status
-km.set('n', '<leader>gs', ':G<CR>', { desc = 'Git status' })
+km.set('n', '<leader>gs', ':G show<cr>')
 
 -- Quick diff
-km.set('n', '<leader>gd', ':Gdiffsplit<CR>', { desc = 'Git diff split' })
+km.set('n', '<leader>g<s-d>', ':Gdiffsplit<cr>')
 
 -- Log
-km.set('n', '<leader>gl', ':G log --oneline --graph --decorate<CR>')
-km.set('n', '<leader>g<s-l>', ':G log --oneline --graph --all --decorate<CR>')
+km.set('n', '<leader>gl', ':G log --oneline --graph --decorate<cr>')
+km.set('n', '<leader>g<s-l>', ':G log --oneline --graph --all --decorate<cr>')
 
 -- Telescope git branch stuff
 km.set('n', '<leader>gb', function()
