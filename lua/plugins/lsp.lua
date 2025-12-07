@@ -88,6 +88,23 @@ return {
         },
       },
     })
+    lspconfig.texlab.setup({
+      settings = {
+        texlab = {
+          build = { onSave = true },
+          forwardSearch = {
+            executable = "zathura",
+            args = {
+              "--synctex-editor-command",
+              [[nvim-texlabconfig -file "%%%{input}" -line %%%{line} -server ]] .. vim.v.servername,
+              "--synctex-forward",
+              "%l:1:%f",
+              "%p",
+            },
+          },
+        },
+      },
+    })
     local original = vim.lsp.util.make_position_params
     vim.lsp.util.make_position_params = function(window, offset_encoding)
       return original(window, offset_encoding or 'utf-16')

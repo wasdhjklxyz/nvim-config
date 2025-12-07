@@ -331,3 +331,7 @@ km.set('n', '<leader>gW', function()
     end
   end)
 end, { desc = 'Finalize all' })
+
+-- LaTeX stuff
+vim.keymap.set('n', '<leader>lf', ':TexlabBuild<cr>')
+vim.keymap.set('n', '<leader>lf', ':TexlabForward<cr>')
