@@ -151,44 +151,28 @@ km.set('t', '<c-l>', '<c-l>')
 km.set('i', ';bash', '#!/usr/bin/env bash<cr><cr>')
 km.set('i', ';sh', '#!/bin/sh<cr><cr>')
 
--- Wip commit keybinding
-km.set('n', '<leader>gw', function()
-  -- Check if HEAD is a WIP
-  local last_msg = vim.fn.system('git log -1 --pretty=%B'):gsub('%s+$', '')
-  vim.cmd('Git add -A')
-  if last_msg == '--wip--' then
-    -- Already have a WIP, fixup to it
-    vim.cmd('Git commit --fixup HEAD')
-  else
-    -- First WIP, create normally
-    vim.cmd('Git commit -m "--wip--"')
-  end
-  vim.notify('WIP committed', vim.log.levels.INFO)
-end, { desc = 'WIP commit (auto-fixup chain)' })
-
--- Unwip (with safety check)
+-- Unwip (with safety check) - FIXED
 km.set('n', '<leader>gu', function()
   local last_msg = vim.fn.system('git log -1 --pretty=%B'):gsub('%s+$', '')
-  if last_msg == '--wip--' then
-    vim.cmd('Git reset --soft HEAD~1')
-    vim.notify('WIP undone', vim.log.levels.INFO)
+  if last_msg == '--wip--' or last_msg:match('^fixup! %-%-wip%-%-') then
+    vim.cmd('silent Git reset HEAD~1')
   else
     vim.notify('Last commit is not WIP: ' .. last_msg, vim.log.levels.WARN)
   end
-end)
+end, { desc = 'Undo last WIP' })
 
 -- Quick status
-km.set('n', '<leader>gs', ':Git<cr>')
+km.set('n', '<leader>gs', ':Git<cr>', { silent = true })
 
 -- Show last commit
-km.set('n', '<leader>g<s-s>', ':G show<cr>')
+km.set('n', '<leader>gS', ':G show<cr>', { silent = true })
 
 -- Quick diff
-km.set('n', '<leader>g<s-d>', ':Gdiffsplit<cr>')
+km.set('n', '<leader>gD', ':Gdiffsplit<cr>', { silent = true })
 
 -- Log
-km.set('n', '<leader>gl', ':G log --oneline --graph --decorate<cr>')
-km.set('n', '<leader>g<s-l>', ':G log --oneline --graph --all --decorate<cr>')
+km.set('n', '<leader>gl', ':G log --oneline --graph --decorate<cr>', { silent = true })
+km.set('n', '<leader>gL', ':G log --oneline --graph --all --decorate<cr>', { silent = true })
 
 -- Telescope branch stuff
 km.set('n', '<leader>gb', function()
@@ -197,13 +181,11 @@ km.set('n', '<leader>gb', function()
   local pickers = require('telescope.pickers')
   local finders = require('telescope.finders')
   local conf = require('telescope.config').values
-  -- Get branches (handle errors)
   local ok, branches = pcall(vim.fn.systemlist, 'git branch --format="%(refname:short)"')
   if not ok or vim.v.shell_error ~= 0 then
     vim.notify('Not in a git repo', vim.log.levels.ERROR)
     return
   end
-  -- Add create option + remote branches option
   table.insert(branches, 1, '+ Create new branch...')
   table.insert(branches, 2, '+ Fetch & show remote branches...')
   pickers.new({}, {
@@ -227,12 +209,10 @@ km.set('n', '<leader>gb', function()
           vim.cmd('Git fetch --all')
           vim.notify('Fetched. Reopen to see remote branches.', vim.log.levels.INFO)
         else
-          -- Escape branch names (could have special chars)
           vim.cmd('Git checkout ' .. vim.fn.fnameescape(choice))
           vim.notify('→ ' .. choice, vim.log.levels.INFO)
         end
       end)
-      -- Add delete branch mapping
       map('n', 'dd', function()
         local selection = action_state.get_selected_entry()
         if selection and not selection[1]:match('^%+') then
@@ -251,182 +231,103 @@ km.set('n', '<leader>gb', function()
       return true
     end,
   }):find()
-end)
+end, { desc = 'Git branch picker' })
 
--- Smart WIP auto-squashing rebase
-km.set('n', '<leader>gR', function()
-  -- Count consecutive WIP commits from HEAD
-  local wip_count = 0
-  local handle = io.popen('git log --pretty=%s')
+-- WIP with auto-branch creation
+km.set('n', '<leader>gw', function()
+  vim.cmd('wa')
+  local last_msg = vim.fn.system('git log -1 --pretty=%B 2>/dev/null'):gsub('%s+$', '')
+  -- No WIP exists - prompt for branch
+  if last_msg ~= '--wip--' and not last_msg:match('^fixup! %-%-wip%-%-') then
+    vim.ui.input({ prompt = 'Branch name (type/scope): ' }, function(name)
+      if name and name ~= '' then
+        vim.cmd('silent Git checkout -b ' .. vim.fn.fnameescape(name))
+        vim.cmd('silent Git add -A')
+        vim.cmd('silent Git commit -m "--wip--"')
+      end
+    end)
+    return
+  end
+  -- Normal WIP
+  vim.cmd('silent Git add -A')
+  local original_wip_sha = nil
+  local handle = io.popen('git log --pretty=%H:%s')
   if handle then
+    local commits = {}
     for line in handle:lines() do
-      if line == '--wip--' then
-        wip_count = wip_count + 1
-      else
-        break  -- Stop at first non-WIP
+      local sha, msg = line:match('^([^:]+):(.+)$')
+      if sha and msg then
+        table.insert(commits, { sha = sha, msg = msg })
+        if not (msg == '--wip--' or msg:match('^fixup!')) then break end
       end
     end
     handle:close()
-  end
-  if wip_count == 0 then
-    -- No WIPs, ask for manual count
-    local count = vim.fn.input('Rebase how many commits? ', '5')
-    if count ~= '' then
-      vim.cmd('Git rebase -i HEAD~' .. count)
-    end
-  else
-    -- Found WIPs, ask if they want to auto-squash
-    local total = wip_count + 1  -- Include the commit before WIPs
-    vim.ui.select(
-      {
-        'Auto-squash ' .. wip_count .. ' WIP commits',
-        'Interactive rebase last ' .. total .. ' commits',
-        'Custom count',
-      },
-      { prompt = 'Found ' .. wip_count .. ' WIP commits:' },
-      function(choice)
-        if choice == nil then return end
-        if choice:match('^Auto%-squash') then
-          -- Set all WIPs to fixup, keep base commit as pick
-          vim.cmd('Git rebase -i HEAD~' .. total)
-          -- Auto-edit the rebase todo file
-          vim.defer_fn(function()
-            -- Change all '--wip--' lines to fixup
-            vim.cmd([[%s/^pick \(.\{-}\) --wip--$/fixup \1 --wip--/e]])
-            vim.cmd('write')
-            vim.notify('WIPs marked as fixup. Review and :wq', vim.log.levels.INFO)
-          end, 100)
-        elseif choice:match('^Interactive') then
-          vim.cmd('Git rebase -i HEAD~' .. total)
-        else  -- Custom
-          local count = vim.fn.input('Rebase commits: ', tostring(total))
-          if count ~= '' then
-            vim.cmd('Git rebase -i HEAD~' .. count)
-          end
-        end
+    for i = #commits, 1, -1 do
+      if commits[i].msg == '--wip--' then
+        original_wip_sha = commits[i].sha
+        break
       end
-    )
+    end
   end
-end, { desc = 'Smart rebase (auto-detect WIPs)' })
+  if original_wip_sha then
+    vim.cmd('silent Git commit --fixup ' .. original_wip_sha)
+  else
+    vim.cmd('silent Git commit -m "--wip--"')
+  end
+end, { desc = 'WIP (auto-branch)' })
 
--- Fixup current file to last commit
-km.set('n', '<leader>gf', function()
-  vim.cmd('Git add %')
-  vim.cmd('Git commit --fixup HEAD')
-  vim.notify('Fixup commit created', vim.log.levels.INFO)
-end, { desc = 'Fixup current file to HEAD' })
-
--- Fixup to specific commit (with picker)
-km.set('n', '<leader>gF', function()
-  -- Get recent commits
-  local commits = vim.fn.systemlist(
-    'git log --oneline --no-decorate -20'
-  )
-  vim.ui.select(commits, {
-    prompt = 'Fixup to which commit?',
-  }, function(choice)
-    if choice then
-      local sha = choice:match('^(%w+)')
-      vim.cmd('Git add %')
-      vim.cmd('Git commit --fixup ' .. sha)
-      vim.notify('Fixup → ' .. sha, vim.log.levels.INFO)
-    end
-  end)
-end, { desc = 'Fixup to specific commit' })
-
--- Create branch + make first WIP (combined operation)
-km.set('n', '<leader>gn', function()
-  vim.ui.input({ prompt = 'Branch name (type/scope): ' }, function(name)
-    if name and name ~= '' then
-      vim.cmd('Git checkout -b ' .. vim.fn.fnameescape(name))
-      vim.cmd('Git add -A')
-      vim.cmd('Git commit -m "--wip--"')
-      vim.notify('Branch created: ' .. name, vim.log.levels.INFO)
-    end
-  end)
-end, { desc = 'New branch + initial WIP' })
-
--- Finish WIP chain: squash all WIPs and reword
+-- Nuclear finalize (no press-enter spam)
 km.set('n', '<leader>gW', function()
-  -- Count WIPs
+  local current_branch = vim.fn.system('git branch --show-current'):gsub('%s+$', '')
+  if current_branch == 'main' or current_branch == 'master' then
+    vim.api.nvim_echo({{'Already on main', 'WarningMsg'}}, false, {})
+    return
+  end
   local wip_count = 0
   local handle = io.popen('git log --pretty=%s')
   if handle then
     for line in handle:lines() do
       if line == '--wip--' or line:match('^fixup! %-%-wip%-%-') then
         wip_count = wip_count + 1
-      else
-        break
-      end
+      else break end
     end
     handle:close()
   end
   if wip_count == 0 then
-    vim.notify('No WIP commits to finalize', vim.log.levels.WARN)
+    vim.api.nvim_echo({{'No WIPs', 'WarningMsg'}}, false, {})
     return
   end
-  -- Get branch name for conventional commit suggestion
-  local branch = vim.fn.system('git branch --show-current'):gsub('%s+$', '')
   local suggested_msg = ''
-  -- Parse branch name (e.g., "feat/user-auth" → "feat: user auth")
-  if branch:match('^([^/]+)/(.+)$') then
-    local type, scope = branch:match('^([^/]+)/(.+)$')
+  if current_branch:match('^([^/]+)/(.+)$') then
+    local type, scope = current_branch:match('^([^/]+)/(.+)$')
     suggested_msg = type .. ': ' .. scope:gsub('%-', ' ')
   end
   vim.ui.input({ 
-    prompt = 'Commit message (conventional format): ',
+    prompt = 'Commit message: ',
     default = suggested_msg
   }, function(msg)
-    if msg and msg ~= '' then
-      -- Squash all WIPs
-      vim.cmd('Git rebase -i HEAD~' .. (wip_count + 1))
-      -- Auto-edit: mark WIPs as fixup, reword base commit
-      vim.defer_fn(function()
-        -- Mark all WIP/fixup lines as fixup
-        vim.cmd([[%s/^pick \(.\{-}\) \(--wip--\|fixup! --wip--\)$/fixup \1 \2/e]])
-          -- Change first pick to reword
-          vim.cmd([[1s/^pick /reword /]])
-          vim.cmd('write')
-          -- Set the commit message for reword
-          vim.defer_fn(function()
-            -- This runs when the commit message editor opens
-            vim.cmd([[%d]])  -- Delete all
-            vim.api.nvim_buf_set_lines(0, 0, 0, false, { msg })
-            vim.cmd('write | quit')
-          end, 200)
-          vim.notify('Squashing WIPs into: ' .. msg, vim.log.levels.INFO)
-        end, 100)
-      end
-    end)
-  end, { desc = 'Finalize WIP chain (squash + conventional commit)' })
-
-  -- Merge current branch to main (after finalization)
-  km.set('n', '<leader>gM', function()
-    local current = vim.fn.system('git branch --show-current'):gsub('%s+$', '')
-    if current == 'main' or current == 'master' then
-      vim.notify('Already on main branch', vim.log.levels.WARN)
-      return
+    if not msg or msg == '' then return end
+    local script = string.format([[
+    #!/bin/bash
+    set -e
+    GIT_SEQUENCE_EDITOR="sed -i '2,$ s/^pick/fixup/'" git rebase -i HEAD~%d
+    git commit --amend -m %s
+    git fetch origin main 2>/dev/null || git fetch origin master 2>/dev/null || true
+    git rebase origin/main 2>/dev/null || git rebase origin/master 2>/dev/null || true
+    git checkout main
+    git merge --ff-only %s
+    git branch -d %s
+    ]], wip_count, vim.fn.shellescape(msg), vim.fn.shellescape(current_branch), vim.fn.shellescape(current_branch))
+    local tmpfile = os.tmpname()
+    local f = io.open(tmpfile, 'w')
+    f:write(script)
+    f:close()
+    vim.fn.system('bash ' .. tmpfile .. ' 2>&1')
+    os.remove(tmpfile)
+    if vim.v.shell_error == 0 then
+      vim.cmd('silent checktime')
+    else
+      vim.api.nvim_echo({{'Failed - check git status', 'ErrorMsg'}}, false, {})
     end
-    vim.ui.select(
-      { 'Merge to main (fast-forward)', 'Merge to main (no-ff)', 'Cancel' },
-      { prompt = 'Merge ' .. current .. ' → main?' },
-      function(choice)
-        if not choice or choice == 'Cancel' then return end
-        local ff_flag = choice:match('fast%-forward') and '' or '--no-ff'
-        vim.cmd('Git checkout main')
-        vim.cmd('Git merge ' .. ff_flag .. ' ' .. vim.fn.fnameescape(current))
-        vim.ui.select(
-          { 'Keep branch', 'Delete branch' },
-          { prompt = 'Branch ' .. current .. ' merged. Keep or delete?' },
-          function(action)
-            if action == 'Delete branch' then
-              vim.cmd('Git branch -d ' .. vim.fn.fnameescape(current))
-              vim.notify('Merged and deleted: ' .. current, vim.log.levels.INFO)
-            else
-              vim.notify('Merged: ' .. current, vim.log.levels.INFO)
-            end
-          end
-        )
-      end
-    )
-  end, { desc = 'Merge current branch to main' })
+  end)
+end, { desc = 'Finalize all' })
