@@ -5,7 +5,7 @@ return {
     gamma = 1.0,
     custom_highlights = {
       ["ColorColumn"] = { bg = "#1f1f1f" },
-      ["@comment"] = { fg = "#353535" },
+      ["@comment"] = { fg = "#ead79e", bg="#353535" },
       ["LineNr"] = { fg = "#353535" },
       ["VertSplit"] = { fg = "#1f1f1f" },
       ["CursorLine"] = { bg = "#353535" },
@@ -13,7 +13,7 @@ return {
       ["StatusLineNC"] = { bg = "#000000"},
       ["BufferVisible"] = { bg = "#353535" },
       ["BufferInactiveMod"] = { bg = "#353535" },
-      ["Visual"] = { bg = "#e48b9b", fg = "#353535" },
+      ["visual"] = { bg = "#e4e48b", fg = "#000000" },
       ["Folded"] = { bg = "#353535" },
       ["WinSeparator"] = { fg = "#353535" },
     },
