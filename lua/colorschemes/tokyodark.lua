@@ -13,7 +13,7 @@ return {
       ["StatusLineNC"] = { bg = "#000000"},
       ["BufferVisible"] = { bg = "#353535" },
       ["BufferInactiveMod"] = { bg = "#353535" },
-      ["visual"] = { bg = "#e4e48b", fg = "#000000" },
+      ["Visual"] = { bg = "#e4e48b", fg = "#000000" },
       ["Folded"] = { bg = "#353535" },
       ["WinSeparator"] = { fg = "#353535" },
       ["NeoTreeGitModified"] = { fg = "#FFAE03" },
