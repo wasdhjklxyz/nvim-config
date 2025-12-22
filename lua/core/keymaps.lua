@@ -335,3 +335,7 @@ end, { desc = 'Finalize all' })
 -- LaTeX stuff
 vim.keymap.set('n', '<leader>lf', ':TexlabBuild<cr>')
 vim.keymap.set('n', '<leader>lf', ':TexlabForward<cr>')
+
+-- Move to next change
+km.set("n", "]c", "<cmd>Gitsigns next_hunk<cr>")
+km.set("n", "[c", "<cmd>Gitsigns prev_hunk<cr>")
