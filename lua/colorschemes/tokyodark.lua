@@ -16,6 +16,9 @@ return {
       ["visual"] = { bg = "#e4e48b", fg = "#000000" },
       ["Folded"] = { bg = "#353535" },
       ["WinSeparator"] = { fg = "#353535" },
+      ["NeoTreeGitModified"] = { fg = "#FFAE03" },
+      ["NeoTreeGitDeleted"] = { fg = "#e74670" },
+      ["NeoTreeGitAdded"] = { fg = "#89d287" },
     },
     custom_palette = {
       black = "#000000",

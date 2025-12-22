@@ -144,5 +144,8 @@ vim.api.nvim_create_autocmd("ColorScheme", {
     local ts_comment_hl = vim.api.nvim_get_hl(0, { name = "@comment" })
     ts_comment_hl.italic = true
     vim.api.nvim_set_hl(0, "@comment", ts_comment_hl)
+    local nt_git_modified_hl = vim.api.nvim_get_hl(0, { name = "NeoTreeGitModified" })
+    nt_git_modified_hl.italic = true
+    vim.api.nvim_set_hl(0, "NeoTreeGitModified", nt_git_modified_hl)
   end
 })
