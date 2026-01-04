@@ -7,7 +7,7 @@ return {
     },
     plugins = {
       -- gets rid of the tmux status bar shit btw
-      tmux = { enabled = true },
+      tmux = { enabled = false },
     },
   }
 }
