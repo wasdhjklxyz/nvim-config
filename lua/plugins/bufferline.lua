@@ -16,7 +16,7 @@ return {
         show_close_icon = false,
         show_tab_indicators = false,
         enforce_regular_tabs = true,
-        sort_by = "insert_at_end",
+        sort_by = "insert_after_current",
         separator_style = { "", "" },
         modified_icon = "●",
         buffer_close_icon = " ",
