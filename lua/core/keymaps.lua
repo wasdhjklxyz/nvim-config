@@ -341,4 +341,4 @@ km.set("n", "]c", "<cmd>Gitsigns next_hunk<cr>")
 km.set("n", "[c", "<cmd>Gitsigns prev_hunk<cr>")
 
 -- LSP references
-km.set("n", "gr", tsb.lsp_references)
+km.set("n", "<leader>pr", tsb.lsp_references)
