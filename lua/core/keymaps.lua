@@ -339,3 +339,6 @@ vim.keymap.set('n', '<leader>lf', ':TexlabForward<cr>')
 -- Move to next change
 km.set("n", "]c", "<cmd>Gitsigns next_hunk<cr>")
 km.set("n", "[c", "<cmd>Gitsigns prev_hunk<cr>")
+
+-- LSP references
+km.set("n", "gr", tsb.lsp_references)
