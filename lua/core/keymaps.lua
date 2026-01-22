@@ -332,6 +332,39 @@ km.set('n', '<leader>gW', function()
   end)
 end, { desc = 'Finalize all' })
 
+km.set('n', '<leader>gS', function()
+  local wip_count = 0
+  local handle = io.popen('git log --pretty=%s')
+  if handle then
+    for line in handle:lines() do
+      if line == '--wip--' or line:match('^fixup! %-%-wip%-%-') then
+        wip_count = wip_count + 1
+      else break end
+    end
+    handle:close()
+  end
+  if wip_count < 2 then
+    vim.api.nvim_echo({{'Need 2+ WIPs to squash', 'WarningMsg'}}, false, {})
+    return
+  end
+  vim.ui.input({ prompt = 'Squash message (empty = keep first): ' }, function(msg)
+    if msg == nil then return end
+    local cmd
+    if msg == '' then
+      cmd = string.format('GIT_SEQUENCE_EDITOR="sed -i \'2,$ s/^pick/fixup/\'" git rebase -i HEAD~%d 2>&1', wip_count)
+    else
+      cmd = string.format('GIT_SEQUENCE_EDITOR="sed -i \'2,$ s/^pick/fixup/\'" git rebase -i HEAD~%d && git commit --amend -m %s 2>&1', wip_count, vim.fn.shellescape(msg))
+    end
+    local result = vim.fn.system(cmd)
+    if vim.v.shell_error == 0 then
+      vim.cmd('silent checktime')
+      vim.api.nvim_echo({{string.format('Squashed %d commits', wip_count), 'Normal'}}, false, {})
+    else
+      vim.api.nvim_echo({{'Squash failed: ' .. result, 'ErrorMsg'}}, false, {})
+    end
+  end)
+end, { desc = 'Squash WIPs only' })
+
 -- LaTeX stuff
 vim.keymap.set('n', '<leader>lf', ':TexlabBuild<cr>')
 vim.keymap.set('n', '<leader>lf', ':TexlabForward<cr>')
