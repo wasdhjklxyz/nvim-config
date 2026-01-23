@@ -375,3 +375,7 @@ km.set("n", "[c", "<cmd>Gitsigns prev_hunk<cr>")
 
 -- LSP references
 km.set("n", "<leader>pr", tsb.lsp_references)
+
+-- C Shit
+km.set("i", ";in", "#include <.h><left><left><left>")
+km.set("i", ";pf", "printf(\"\\n\");<left><left><left><left><left>")
