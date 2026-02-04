@@ -1,6 +1,8 @@
 local g = vim.g
 local o = vim.opt
 
+g.kernel_format_enabled = true
+
 o.title = true
 o.number = true
 o.relativenumber = true

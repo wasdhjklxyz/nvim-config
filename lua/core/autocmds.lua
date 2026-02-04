@@ -66,6 +66,7 @@ api.nvim_create_autocmd("FileType", {
     api.nvim_create_autocmd("BufWritePre", {
       buffer = 0,
       callback = function()
+        if not vim.g.kernel_format_enabled then return end
         vim.lsp.buf.format({ timeout_ms = 2000 })
       end,
     })
@@ -90,6 +91,7 @@ vim.api.nvim_create_autocmd({"BufRead", "BufNewFile"}, {
   pattern = {"*.c", "*.h"},
   callback = function()
     local path = vim.fn.expand('%:p')
+    if not vim.g.kernel_format_enabled then return end
     if vim.fn.filereadable('Kbuild') == 1 then
       --vim.fn.filereadable('.clang-format') == 1 then
       vim.opt_local.tabstop = 8

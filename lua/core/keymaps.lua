@@ -379,3 +379,9 @@ km.set("n", "<leader>pr", tsb.lsp_references)
 -- C Shit
 km.set("i", ";in", "#include <.h><left><left><left>")
 km.set("i", ";pf", "printf(\"\\n\");<left><left><left><left><left>")
+
+-- Toggle kernel formatting
+km.set('n', '<leader>kf', function()
+  vim.g.kernel_format_enabled = not vim.g.kernel_format_enabled
+  print("Kernel formatting: " .. (vim.g.kernel_format_enabled and "ON" or "OFF"))
+end)
