@@ -385,3 +385,8 @@ km.set('n', '<leader>kf', function()
   vim.g.kernel_format_enabled = not vim.g.kernel_format_enabled
   print("Kernel formatting: " .. (vim.g.kernel_format_enabled and "ON" or "OFF"))
 end)
+
+-- Toggle term
+km.set('n', '<leader>th', '<cmd>ToggleTerm size=22 direction=horizontal<cr>')
+km.set('n', '<leader>tv', '<cmd>ToggleTerm size=84 direction=vertical<cr>')
+km.set('n', '<leader>tf', '<cmd>ToggleTerm<cr>')
