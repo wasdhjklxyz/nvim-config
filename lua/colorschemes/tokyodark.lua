@@ -5,7 +5,7 @@ return {
     gamma = 1.0,
     custom_highlights = {
       ["ColorColumn"] = { bg = "#1f1f1f" },
-      ["@comment"] = { fg = "#d9c68d", bg="#1f1f1f" },
+      ["@comment"] = { fg = "#d9c68d", bg="#101010" },
       ["LineNr"] = { fg = "#353535" },
       ["VertSplit"] = { fg = "#1f1f1f" },
       ["CursorLine"] = { bg = "#353535" },
