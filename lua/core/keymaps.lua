@@ -135,7 +135,7 @@ km.set("n", "<leader>dv", function()
 end)
 
 -- Reverse highlighted lines
-km.set('v', '<leader>r', ":!tac<cr>")
+--km.set('v', '<leader>r', ":!tac<cr>")
 
 -- Search selection
 vim.keymap.set('v', '/', [[y/\V<C-R>=escape(@",'/\')<CR><CR>]])
@@ -390,3 +390,8 @@ end)
 km.set('n', '<leader>th', '<cmd>ToggleTerm size=22 direction=horizontal<cr>')
 km.set('n', '<leader>tv', '<cmd>ToggleTerm size=84 direction=vertical<cr>')
 km.set('n', '<leader>tf', '<cmd>ToggleTerm<cr>')
+
+-- Jump up to context
+vim.keymap.set("n", "<leader>r", function()
+  require("treesitter-context").go_to_context(vim.v.count1)
+end, { silent = true })

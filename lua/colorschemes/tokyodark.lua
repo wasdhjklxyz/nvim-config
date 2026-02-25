@@ -19,6 +19,7 @@ return {
       ["NeoTreeGitModified"] = { fg = "#ff8700" },
       ["NeoTreeGitDeleted"] = { fg = "#e74670" },
       ["NeoTreeGitAdded"] = { fg = "#89d287" },
+      ["TreesitterContextBottom"] = { underline = true, sp = '#101010' },
     },
     custom_palette = {
       black = "#000000",
