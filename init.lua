@@ -64,6 +64,7 @@ if kc == "light" then
   kc = "github_light_default"
 else
   -- DARK MODE COLORSCHEME
-  kc = "tokyodark"
+  --kc = "tokyodark"
+  kc = "bamboo-vulgaris"
 end
 vim.cmd("colorscheme " .. kc)
