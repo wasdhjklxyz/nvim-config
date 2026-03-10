@@ -395,3 +395,8 @@ km.set('n', '<leader>tf', '<cmd>ToggleTerm<cr>')
 vim.keymap.set("n", "<leader>r", function()
   require("treesitter-context").go_to_context(vim.v.count1)
 end, { silent = true })
+
+-- Diagnostics
+vim.keymap.set('n', ']a', vim.diagnostic.goto_next)
+vim.keymap.set('n', '[a', vim.diagnostic.goto_prev)
+km.set('n', '<leader>pa', '<cmd>Telescope diagnostics<cr>')
