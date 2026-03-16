@@ -42,6 +42,14 @@ return {
           },
         },
         preview = false,
+        file_ignore_patterns = {
+          "node_modules/",
+          "%.o$",
+          "build/",
+          "%.git/",
+          "external/",
+          "docs/",
+        },
       },
       pickers = {
         find_files = { preview = false },
