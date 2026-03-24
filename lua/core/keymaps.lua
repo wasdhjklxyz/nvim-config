@@ -402,4 +402,4 @@ vim.keymap.set('n', '[a', vim.diagnostic.goto_prev)
 km.set('n', '<leader>pa', '<cmd>Telescope diagnostics<cr>')
 
 -- Add backslash for C macros
-km.set('v', 'gm', '<cmd>s/$/ \\\\/<cr>')
+km.set('v', 'gm', ':s/$/ \\\\/<cr>')
