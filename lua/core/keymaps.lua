@@ -135,7 +135,7 @@ km.set("n", "<leader>dv", function()
 end)
 
 -- Reverse highlighted lines
---km.set('v', '<leader>r', ":!tac<cr>")
+km.set('v', '<leader>v', ":!tac<cr>")
 
 -- Search selection
 vim.keymap.set('v', '/', [[y/\V<C-R>=escape(@",'/\')<CR><CR>]])
